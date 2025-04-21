@@ -1,49 +1,42 @@
+import { retrieveOrder } from "@lib/data/orders"
+import OrderDetailsTemplate from "@modules/order/templates/order-details-template"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import OrderDetailsTemplate from "@modules/order/templates/order-details-template"
-import { retrieveOrder } from "@lib/data/orders"
-import { enrichLineItems } from "@lib/data/cart"
-import { HttpTypes } from "@medusajs/types"
-
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
-async function getOrder(id: string) {
-  const order = await retrieveOrder(id)
-
-  if (!order) {
-    return
-  }
-
-  const enrichedItems = await enrichLineItems(order.items, order.region_id!)
-
-  return {
-    ...order,
-    items: enrichedItems,
-  } as unknown as HttpTypes.StoreOrder
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const order = await getOrder(params.id).catch(() => null)
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params
+  const order = await retrieveOrder(params.id).catch(() => null)
 
   if (!order) {
     notFound()
   }
 
   return {
-    title: `Order #${order.display_id}`,
-    description: `View your order`,
+    title: `Order #${order.display_id} | Botanical Bricks`,
+    description: `View details for your order #${order.display_id} from Botanical Bricks, including order status, items, shipping information and payment details.`,
+    openGraph: {
+      title: `Order #${order.display_id} | Botanical Bricks`,
+      description: `View your Botanical Bricks order details, status and shipping information.`,
+      type: 'website',
+    }
   }
 }
 
-export default async function OrderDetailPage({ params }: Props) {
-  const order = await getOrder(params.id).catch(() => null)
+export default async function OrderDetailPage(props: Props) {
+  const params = await props.params
+  const order = await retrieveOrder(params.id).catch(() => null)
 
   if (!order) {
     notFound()
   }
 
-  return <OrderDetailsTemplate order={order} />
+  return (
+    <div className="max-w-4xl mx-auto pt-2 pb-12">
+      <OrderDetailsTemplate order={order} />
+    </div>
+  )
 }
