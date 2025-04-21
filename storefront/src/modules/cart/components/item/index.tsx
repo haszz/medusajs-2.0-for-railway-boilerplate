@@ -1,7 +1,6 @@
 "use client"
 
 import { Table, Text, clx } from "@medusajs/ui"
-
 import { updateLineItem } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
 import CartItemSelect from "@modules/cart/components/cart-item-select"
@@ -18,19 +17,18 @@ import { useState } from "react"
 type ItemProps = {
   item: HttpTypes.StoreCartLineItem
   type?: "full" | "preview"
+  currencyCode: string
 }
 
-const Item = ({ item, type = "full" }: ItemProps) => {
+const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
   const [updating, setUpdating] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
-  const { handle } = item.variant?.product ?? {}
 
   const changeQuantity = async (quantity: number) => {
     setError(null)
     setUpdating(true)
 
-    const message = await updateLineItem({
+    await updateLineItem({
       lineId: item.id,
       quantity,
     })
@@ -47,30 +45,31 @@ const Item = ({ item, type = "full" }: ItemProps) => {
   const maxQuantity = item.variant?.manage_inventory ? 10 : maxQtyFromInventory
 
   return (
-    <Table.Row className="w-full" data-testid="product-row">
+    <Table.Row className="w-full border-b border-gray-100 last:border-none hover:bg-green-50/10 transition-colors duration-200" data-testid="product-row">
       <Table.Cell className="!pl-0 p-4 w-24">
         <LocalizedClientLink
-          href={`/products/${handle}`}
+          href={`/products/${item.product_handle}`}
           className={clx("flex", {
             "w-16": type === "preview",
             "small:w-24 w-12": type === "full",
           })}
         >
           <Thumbnail
-            thumbnail={item.variant?.product?.thumbnail}
-            images={item.variant?.product?.images}
-            size="square"
+            thumbnail={item.thumbnail}
+            size="full"
           />
         </LocalizedClientLink>
       </Table.Cell>
 
       <Table.Cell className="text-left">
-        <Text
-          className="txt-medium-plus text-ui-fg-base"
-          data-testid="product-title"
-        >
-          {item.product_title}
-        </Text>
+        <LocalizedClientLink href={`/products/${item.product_handle}`}>
+          <Text
+            className="txt-medium-plus text-ui-fg-base hover:text-[#2d711c] transition-colors duration-200"
+            data-testid="product-title"
+          >
+            {item.product_title}
+          </Text>
+        </LocalizedClientLink>
         <LineItemOptions variant={item.variant} data-testid="product-variant" />
       </Table.Cell>
 
@@ -81,7 +80,7 @@ const Item = ({ item, type = "full" }: ItemProps) => {
             <CartItemSelect
               value={item.quantity}
               onChange={(value) => changeQuantity(parseInt(value.target.value))}
-              className="w-14 h-10 p-4"
+              className="w-14 h-10 p-4 border border-gray-200 rounded-md focus:border-green-200 focus:ring-green-200"
               data-testid="product-select-button"
             >
               {/* TODO: Update this with the v2 way of managing inventory */}
@@ -95,10 +94,6 @@ const Item = ({ item, type = "full" }: ItemProps) => {
                   </option>
                 )
               )}
-
-              <option value={1} key={1}>
-                1
-              </option>
             </CartItemSelect>
             {updating && <Spinner />}
           </div>
@@ -108,7 +103,11 @@ const Item = ({ item, type = "full" }: ItemProps) => {
 
       {type === "full" && (
         <Table.Cell className="hidden small:table-cell">
-          <LineItemUnitPrice item={item} style="tight" />
+          <LineItemUnitPrice
+            item={item}
+            style="tight"
+            currencyCode={currencyCode}
+          />
         </Table.Cell>
       )}
 
@@ -121,10 +120,18 @@ const Item = ({ item, type = "full" }: ItemProps) => {
           {type === "preview" && (
             <span className="flex gap-x-1 ">
               <Text className="text-ui-fg-muted">{item.quantity}x </Text>
-              <LineItemUnitPrice item={item} style="tight" />
+              <LineItemUnitPrice
+                item={item}
+                style="tight"
+                currencyCode={currencyCode}
+              />
             </span>
           )}
-          <LineItemPrice item={item} style="tight" />
+          <LineItemPrice
+            item={item}
+            style="tight"
+            currencyCode={currencyCode}
+          />
         </span>
       </Table.Cell>
     </Table.Row>

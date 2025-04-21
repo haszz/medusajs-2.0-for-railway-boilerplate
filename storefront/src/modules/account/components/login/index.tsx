@@ -1,63 +1,80 @@
-import { useFormState } from "react-dom"
+"use client"
 
+import { login } from "@lib/data/customer"
 import { LOGIN_VIEW } from "@modules/account/templates/login-template"
-import Input from "@modules/common/components/input"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
-import { login } from "@lib/data/customer"
+import Input from "@modules/common/components/input"
+import { useActionState } from "react"
+import { KeyRound } from "lucide-react"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
 }
 
 const Login = ({ setCurrentView }: Props) => {
-  const [message, formAction] = useFormState(login, null)
+  const [message, formAction] = useActionState(login, null)
 
   return (
-    <div
-      className="max-w-sm w-full flex flex-col items-center"
-      data-testid="login-page"
-    >
-      <h1 className="text-large-semi uppercase mb-6">Welcome back</h1>
-      <p className="text-center text-base-regular text-ui-fg-base mb-8">
-        Sign in to access an enhanced shopping experience.
-      </p>
-      <form className="w-full" action={formAction}>
-        <div className="flex flex-col w-full gap-y-2">
+    <div className="w-full" data-testid="login-page">
+      <div className="flex flex-col items-center mb-8">
+        <h1 className="text-xl font-semibold text-[#2d711c] mb-2">
+          Welcome Back
+        </h1>
+        <p className="text-center text-gray-600 text-sm max-w-xs">
+          Sign in to your Bricks Botanical Collection account
+        </p>
+      </div>
+      
+      <form className="w-full flex flex-col" action={formAction}>
+        <div className="grid grid-cols-1 gap-y-4">
           <Input
             label="Email"
             name="email"
-            type="email"
-            title="Enter a valid email address."
-            autoComplete="email"
             required
+            type="email"
+            autoComplete="email"
             data-testid="email-input"
           />
           <Input
             label="Password"
             name="password"
+            required
             type="password"
             autoComplete="current-password"
-            required
             data-testid="password-input"
           />
         </div>
-        <ErrorMessage error={message} data-testid="login-error-message" />
-        <SubmitButton data-testid="sign-in-button" className="w-full mt-6">
-          Sign in
+        
+        <ErrorMessage error={message} data-testid="login-error" />
+        
+        <LocalizedClientLink
+          href="/account/reset-password"
+          className="text-[#2d711c] text-right mt-2 self-end text-sm hover:underline"
+        >
+          Forgot your password?
+        </LocalizedClientLink>
+        
+        <SubmitButton 
+          className="w-full mt-6 bg-[#2d711c] hover:bg-[#235916] transition-colors duration-200" 
+          data-testid="login-button"
+        >
+          Sign In
         </SubmitButton>
       </form>
-      <span className="text-center text-ui-fg-base text-small-regular mt-6">
-        Not a member?{" "}
-        <button
-          onClick={() => setCurrentView(LOGIN_VIEW.REGISTER)}
-          className="underline"
-          data-testid="register-button"
-        >
-          Join us
-        </button>
-        .
-      </span>
+      
+      <div className="w-full flex justify-center mt-6 text-sm text-gray-600">
+        <span>
+          Don't have an account?{" "}
+          <button
+            onClick={() => setCurrentView(LOGIN_VIEW.REGISTER)}
+            className="text-[#2d711c] font-medium hover:underline"
+          >
+            Create one
+          </button>
+        </span>
+      </div>
     </div>
   )
 }

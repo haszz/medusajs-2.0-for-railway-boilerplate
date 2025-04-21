@@ -5,16 +5,11 @@ import NextJs from "../../../common/icons/nextjs"
 
 const MedusaCTA = () => {
   return (
-    <Text className="flex gap-x-2 txt-compact-small-plus items-center">
-      Powered by
-      <a href="https://www.medusajs.com" target="_blank" rel="noreferrer">
-        <Medusa fill="#9ca3af" className="fill-[#9ca3af]" />
-      </a>
-      &
-      <a href="https://nextjs.org" target="_blank" rel="noreferrer">
-        <NextJs fill="#9ca3af" />
-      </a>
-    </Text>
+    <div className="flex flex-col items-center gap-y-2">
+      <div className="text-xs text-gray-400 mt-1">
+        © {new Date().getFullYear()} Flower Bricks. All rights reserved.
+      </div>
+    </div>
   )
 }
 

@@ -2,6 +2,8 @@
 
 import {
   Popover,
+  PopoverButton,
+  PopoverPanel,
   Transition,
 } from "@headlessui/react"
 import { convertToLocale } from "@lib/util/money"
@@ -90,7 +92,7 @@ const CartDropdown = ({
       onMouseLeave={close}
     >
       <Popover className="relative h-full">
-        <Popover.Button className="h-full">
+        <PopoverButton className="h-full">
           <LocalizedClientLink
             className="hover:text-ui-fg-base flex items-center gap-x-2"
             href="/cart"
@@ -104,7 +106,7 @@ const CartDropdown = ({
               )}
             </div>
           </LocalizedClientLink>
-        </Popover.Button>
+        </PopoverButton>
         <Transition
           show={cartDropdownOpen}
           as={Fragment}
@@ -115,7 +117,7 @@ const CartDropdown = ({
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 translate-y-1"
         >
-          <Popover.Panel
+          <PopoverPanel
             static
             className="hidden small:block absolute top-[calc(100%+1px)] right-0 bg-white border-x border-b border-gray-200 w-[420px] text-ui-fg-base shadow-lg rounded-b-md"
             data-testid="nav-cart-dropdown"
@@ -184,6 +186,7 @@ const CartDropdown = ({
                                 <LineItemPrice
                                   item={item}
                                   style="tight"
+                                  currencyCode={cartState.currency_code}
                                 />
                               </div>
                             </div>
@@ -250,7 +253,7 @@ const CartDropdown = ({
                 </div>
               </div>
             )}
-          </Popover.Panel>
+          </PopoverPanel>
         </Transition>
       </Popover>
     </div>

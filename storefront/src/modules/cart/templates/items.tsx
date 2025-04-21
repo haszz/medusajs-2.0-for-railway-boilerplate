@@ -6,18 +6,27 @@ import Item from "@modules/cart/components/item"
 import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
 
 type ItemsTemplateProps = {
-  items?: HttpTypes.StoreCartLineItem[]
+  cart?: HttpTypes.StoreCart
 }
 
-const ItemsTemplate = ({ items }: ItemsTemplateProps) => {
+const ItemsTemplate = ({ cart }: ItemsTemplateProps) => {
+  const items = cart?.items
+  const itemCount = items?.length || 0
+  
   return (
     <div>
-      <div className="pb-3 flex items-center">
-        <Heading className="text-[2rem] leading-[2.75rem]">Cart</Heading>
+      <div className="pb-4 flex items-center justify-between border-b border-green-100/50 mb-4">
+        <div>
+          <Heading className="text-2xl font-medium text-[#2d711c]">Shopping Cart</Heading>
+          <p className="text-sm text-gray-600 mt-1">
+            {itemCount} {itemCount === 1 ? 'item' : 'items'} in your cart
+          </p>
+        </div>
       </div>
+      
       <Table>
         <Table.Header className="border-t-0">
-          <Table.Row className="text-ui-fg-subtle txt-medium-plus">
+          <Table.Row className="text-ui-fg-subtle text-sm font-medium border-b border-green-100/50">
             <Table.HeaderCell className="!pl-0">Item</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
             <Table.HeaderCell>Quantity</Table.HeaderCell>
@@ -36,7 +45,13 @@ const ItemsTemplate = ({ items }: ItemsTemplateProps) => {
                   return (a.created_at ?? "") > (b.created_at ?? "") ? -1 : 1
                 })
                 .map((item) => {
-                  return <Item key={item.id} item={item} />
+                  return (
+                    <Item
+                      key={item.id}
+                      item={item}
+                      currencyCode={cart?.currency_code}
+                    />
+                  )
                 })
             : repeat(5).map((i) => {
                 return <SkeletonLineItem key={i} />

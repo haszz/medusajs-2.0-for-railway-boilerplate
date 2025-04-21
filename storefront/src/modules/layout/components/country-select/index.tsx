@@ -2,6 +2,9 @@
 
 import {
   Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
   Transition,
 } from "@headlessui/react"
 import { Fragment, useEffect, useMemo, useState } from "react"
@@ -70,7 +73,7 @@ const CountrySelect = ({ toggleState, regions }: CountrySelectProps) => {
             : undefined
         }
       >
-        <Listbox.Button className="py-1 w-full text-[#2d711c]">
+        <ListboxButton className="py-1 w-full text-[#2d711c]">
           <div className="txt-compact-small flex items-start gap-x-2 font-medium">
             <span>Shipping to:</span>
             {current && (
@@ -88,7 +91,7 @@ const CountrySelect = ({ toggleState, regions }: CountrySelectProps) => {
               </span>
             )}
           </div>
-        </Listbox.Button>
+        </ListboxButton>
         <div className="flex relative w-full min-w-[320px]">
           <Transition
             show={state}
@@ -97,13 +100,13 @@ const CountrySelect = ({ toggleState, regions }: CountrySelectProps) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options
+            <ListboxOptions
               className="absolute -bottom-[calc(100%-36px)] left-0 xsmall:left-auto xsmall:right-0 max-h-[442px] overflow-y-scroll z-[900] bg-white drop-shadow-md text-small-regular uppercase text-[#2d711c] no-scrollbar rounded-lg w-full border border-green-100"
               static
             >
               {options?.map((o, index) => {
                 return (
-                  <Listbox.Option
+                  <ListboxOption
                     key={index}
                     value={o}
                     className="py-2 hover:bg-green-50 px-3 cursor-pointer flex items-center gap-x-2"
@@ -118,10 +121,10 @@ const CountrySelect = ({ toggleState, regions }: CountrySelectProps) => {
                       countryCode={o?.country ?? ""}
                     />{" "}
                     {o?.label}
-                  </Listbox.Option>
+                  </ListboxOption>
                 )
               })}
-            </Listbox.Options>
+            </ListboxOptions>
           </Transition>
         </div>
       </Listbox>

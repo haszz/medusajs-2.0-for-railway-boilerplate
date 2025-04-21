@@ -1,14 +1,13 @@
 "use client"
 
-import { Popover, Transition } from "@headlessui/react"
+import { Popover, PopoverPanel, Transition } from "@headlessui/react"
+import { ArrowRightMini, XMark } from "@medusajs/icons"
 import { Text, clx, useToggleState } from "@medusajs/ui"
 import { Fragment } from "react"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CountrySelect from "../country-select"
 import { HttpTypes } from "@medusajs/types"
-import ChevronDown from "@modules/common/icons/chevron-down"
-import X from "@modules/common/icons/x"
 
 const SideMenuItems = {
   Home: "/",
@@ -50,7 +49,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Popover.Panel className="fixed inset-0 z-[60] flex justify-end">
+                <PopoverPanel className="fixed inset-0 z-[60] flex justify-end">
                   <div className="absolute inset-0 bg-black bg-opacity-40" onClick={close}></div>
                   <div
                     data-testid="nav-menu-popup"
@@ -58,7 +57,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                   >
                     <div className="flex justify-end" id="xmark">
                       <button data-testid="close-menu-button" onClick={close} className="text-[#2d711c] hover:text-[#235915]">
-                        <X />
+                        <XMark />
                       </button>
                     </div>
                     <ul className="flex flex-col gap-6 items-start justify-start mt-8">
@@ -91,7 +90,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                             regions={regions}
                           />
                         )}
-                        <ChevronDown
+                        <ArrowRightMini
                           className={clx(
                             "transition-transform duration-150 text-[#2d711c]",
                             toggleState.state ? "-rotate-90" : ""
@@ -104,7 +103,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                       </Text>
                     </div>
                   </div>
-                </Popover.Panel>
+                </PopoverPanel>
               </Transition>
             </>
           )}
