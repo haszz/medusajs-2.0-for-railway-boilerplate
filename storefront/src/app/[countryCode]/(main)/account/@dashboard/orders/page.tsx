@@ -56,7 +56,7 @@ export default async function Orders() {
           <div>
             <h3 className="font-medium text-amber-700 mb-1">No Orders Yet</h3>
             <p className="text-sm text-gray-600">
-              You haven't placed any orders yet. Start shopping our botanical collection to see your orders here.
+              You haven&apos;t placed any orders yet. Start shopping our botanical collection to see your orders here.
             </p>
           </div>
         </div>
