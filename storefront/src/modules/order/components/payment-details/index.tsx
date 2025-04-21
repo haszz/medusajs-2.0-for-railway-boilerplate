@@ -1,4 +1,7 @@
+"use client"
+
 import { Container, Heading, Text } from "@medusajs/ui"
+import { useParams } from "next/navigation"
 
 import { isStripe, paymentInfoMap } from "@lib/constants"
 import Divider from "@modules/common/components/divider"
@@ -11,6 +14,8 @@ type PaymentDetailsProps = {
 
 const PaymentDetails = ({ order }: PaymentDetailsProps) => {
   const payment = order.payment_collections?.[0].payments?.[0]
+  const params = useParams()
+  const locale = params?.countryCode === 'fr' ? 'fr-FR' : 'en-US'
 
   return (
     <div>
@@ -47,7 +52,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                         currency_code: order.currency_code,
                       })} paid at ${new Date(
                         payment.created_at ?? ""
-                      ).toLocaleString()}`}
+                      ).toLocaleString(locale)}`}
                 </Text>
               </div>
             </div>

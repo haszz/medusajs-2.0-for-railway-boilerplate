@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useMemo, useRef } from "react"
+import { Globe } from "lucide-react"
 
 import NativeSelect, {
   NativeSelectProps,
@@ -10,7 +11,7 @@ const CountrySelect = forwardRef<
   NativeSelectProps & {
     region?: HttpTypes.StoreRegion
   }
->(({ placeholder = "Country", region, defaultValue, ...props }, ref) => {
+>(({ placeholder = "Select a country", region, defaultValue, label, required, ...props }, ref) => {
   const innerRef = useRef<HTMLSelectElement>(null)
 
   useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(
@@ -30,18 +31,28 @@ const CountrySelect = forwardRef<
   }, [region])
 
   return (
-    <NativeSelect
-      ref={innerRef}
-      placeholder={placeholder}
-      defaultValue={defaultValue}
-      {...props}
-    >
-      {countryOptions?.map(({ value, label }, index) => (
-        <option key={index} value={value}>
-          {label}
+    <div className="relative">
+      <NativeSelect
+        ref={innerRef}
+        placeholder={placeholder}
+        defaultValue={defaultValue}
+        label={label || "Country"}
+        required={required}
+        {...props}
+      >
+        <option value="" disabled>
+          {placeholder}
         </option>
-      ))}
-    </NativeSelect>
+        {countryOptions?.map(({ value, label }, index) => (
+          <option key={index} value={value}>
+            {label}
+          </option>
+        ))}
+      </NativeSelect>
+      <div className="absolute right-10 top-4 text-gray-400 pointer-events-none">
+        <Globe size={16} />
+      </div>
+    </div>
   )
 })
 

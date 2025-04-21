@@ -1,9 +1,9 @@
 "use client"
 
-import { Heading, Text, clx } from "@medusajs/ui"
-
+import { Text } from "@medusajs/ui"
 import PaymentButton from "../payment-button"
 import { useSearchParams } from "next/navigation"
+import { ClipboardCheck, ShieldCheck } from "lucide-react"
 
 const Review = ({ cart }: { cart: any }) => {
   const searchParams = useSearchParams()
@@ -19,34 +19,37 @@ const Review = ({ cart }: { cart: any }) => {
     (cart.payment_collection || paidByGiftcard)
 
   return (
-    <div className="bg-white">
-      <div className="flex flex-row items-center justify-between mb-6">
-        <Heading
-          level="h2"
-          className={clx(
-            "flex flex-row text-3xl-regular gap-x-2 items-baseline",
-            {
-              "opacity-50 pointer-events-none select-none": !isOpen,
-            }
-          )}
-        >
-          Review
-        </Heading>
-      </div>
+    <div className="w-full">
       {isOpen && previousStepsCompleted && (
-        <>
-          <div className="flex items-start gap-x-1 w-full mb-6">
-            <div className="w-full">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                By clicking the Place Order button, you confirm that you have
-                read, understand and accept our Terms of Use, Terms of Sale and
-                Returns Policy and acknowledge that you have read Medusa
-                Store&apos;s Privacy Policy.
-              </Text>
+        <div className="space-y-6">
+
+          
+          <div className="bg-white border border-gray-200 rounded-lg p-5">
+            <div className="flex items-start gap-4 mb-6">
+              <div className="mt-1 text-green-600 flex-shrink-0">
+                <ShieldCheck size={20} />
+              </div>
+              <div>
+                <Text className="text-sm text-gray-600 leading-relaxed">
+                  By clicking the Place Order button, you confirm that you have
+                  read, understand and accept our <span className="text-[#2d711c] font-medium hover:underline cursor-pointer">Terms of Use</span>, <span className="text-[#2d711c] font-medium hover:underline cursor-pointer">Terms of Sale</span> and
+                  <span className="text-[#2d711c] font-medium hover:underline cursor-pointer"> Returns Policy</span> and acknowledge that you have read Bricks Botanical Collection's <span className="text-[#2d711c] font-medium hover:underline cursor-pointer">Privacy Policy</span>.
+                </Text>
+              </div>
+            </div>
+            
+            <div className="pt-4 border-t border-gray-100">
+              <PaymentButton 
+                cart={cart} 
+                data-testid="submit-order-button"
+                className="w-full sm:w-auto bg-[#2d711c] hover:bg-[#25601a] text-white"
+              />
+              <p className="text-xs text-gray-500 mt-3">
+                Your order will be processed securely. You can review all details before placing your order.
+              </p>
             </div>
           </div>
-          <PaymentButton cart={cart} data-testid="submit-order-button" />
-        </>
+        </div>
       )}
     </div>
   )

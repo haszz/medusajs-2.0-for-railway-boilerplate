@@ -4,9 +4,13 @@ import LoginTemplate from "@modules/account/templates/login-template"
 
 export const metadata: Metadata = {
   title: "Sign in",
-  description: "Sign in to your Medusa Store account.",
+  description: "Sign in to your Bricks Botanical Collection account.",
 }
 
 export default function Login() {
-  return <LoginTemplate />
+  return (
+    <div className="w-full flex justify-center">
+      <LoginTemplate />
+    </div>
+  )
 }

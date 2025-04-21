@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@medusajs/ui"
+import { ShoppingBag, ExternalLink } from "lucide-react"
 
 import OrderCard from "../order-card"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
@@ -9,11 +10,11 @@ import { HttpTypes } from "@medusajs/types"
 const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
   if (orders?.length) {
     return (
-      <div className="flex flex-col gap-y-8 w-full">
+      <div className="flex flex-col gap-y-6 w-full">
         {orders.map((o) => (
           <div
             key={o.id}
-            className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
+            className="last:mb-0"
           >
             <OrderCard order={o} />
           </div>
@@ -24,17 +25,24 @@ const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
 
   return (
     <div
-      className="w-full flex flex-col items-center gap-y-4"
+      className="w-full flex flex-col items-center gap-y-6 py-12 px-4 border border-dashed border-gray-200 rounded-lg bg-gray-50/50"
       data-testid="no-orders-container"
     >
-      <h2 className="text-large-semi">Nothing to see here</h2>
-      <p className="text-base-regular">
-        You don&apos;t have any orders yet, let us change that {":)"}
-      </p>
-      <div className="mt-4">
+      <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center text-[#2d711c]">
+        <ShoppingBag size={28} />
+      </div>
+      <div className="flex flex-col items-center text-center">
+        <h2 className="text-xl font-semibold text-gray-900 mb-1">No orders yet</h2>
+        <p className="text-gray-600 max-w-sm mb-6">
+          You haven't placed any orders yet. Browse our botanical collection to find the perfect brick sets for your projects.
+        </p>
         <LocalizedClientLink href="/" passHref>
-          <Button data-testid="continue-shopping-button">
-            Continue shopping
+          <Button 
+            data-testid="continue-shopping-button"
+            className="bg-[#2d711c] hover:bg-[#25601a] text-white font-medium px-6 py-3 rounded-md flex items-center gap-2"
+          >
+            Browse collection
+            <ExternalLink size={16} />
           </Button>
         </LocalizedClientLink>
       </div>
