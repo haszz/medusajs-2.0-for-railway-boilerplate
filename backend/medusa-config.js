@@ -152,4 +152,6 @@ const medusaConfig = {
 };
 
 console.log(JSON.stringify(medusaConfig, null, 2));
+console.log('💌 Resend active?', RESEND_API_KEY && RESEND_FROM_EMAIL)
+
 export default defineConfig(medusaConfig);
