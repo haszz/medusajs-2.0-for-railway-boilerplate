@@ -35,6 +35,7 @@
     "@mikro-orm/postgresql": "6.4.3",
     "@react-email/components": "^0.0.26",
     "@rokmohar/medusa-plugin-meilisearch": "^1.0.3",
+    "@rsc-labs/medusa-shippo-elements": "^0.1.1",
     "@webprovise1/medusa-fulfillment-shippo": "^1.0.0",
     "awilix": "^8.0.1",
     "medusajs-launch-utils": "^0.0.15",

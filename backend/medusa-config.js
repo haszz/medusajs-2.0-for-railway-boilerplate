@@ -157,6 +157,13 @@ const medusaConfig = {
         // webhook_secret: process.env.SHIPPO_WEBHOOK_SECRET, // Comment out or remove if Shippo provides no secret
         webhook_test_mode: process.env.NODE_ENV !== 'production'
       },
+    },
+    {
+      resolve: `@rsc-labs/medusa-shippo-elements`,
+      options: {
+        token: process.env.SHIPPO_API_KEY, // Reuse the Shippo API Key
+        enableUI: true
+      }
     }
   ]
 };
