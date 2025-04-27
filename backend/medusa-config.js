@@ -147,7 +147,17 @@ const medusaConfig = {
           }
         }
       }
-    }] : [])
+    }] : []),
+    {
+      resolve: `medusa-fulfillment-shippo`,
+      options: {
+        api_key: process.env.SHIPPO_API_KEY, // Replace with your Shippo API key from environment variable
+        weight_unit_type: 'g', // valid values: g, kg, lb, oz
+        dimension_unit_type: 'cm', // valid values: cm, mm, in
+        webhook_secret: process.env.SHIPPO_WEBHOOK_SECRET, // Optional: Replace with your Shippo webhook secret
+        webhook_test_mode: process.env.NODE_ENV !== 'production' // Optional: Set to true for testing webhooks
+      },
+    }
   ]
 };
 
