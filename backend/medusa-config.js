@@ -149,7 +149,7 @@ const medusaConfig = {
       }
     }] : []),
     {
-      resolve: `medusa-fulfillment-shippo`,
+      resolve: `@webprovise1/medusa-fulfillment-shippo`,
       options: {
         api_key: process.env.SHIPPO_API_KEY,
         weight_unit_type: 'g',
