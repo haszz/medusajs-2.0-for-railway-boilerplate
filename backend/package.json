@@ -38,6 +38,7 @@
     "@rsc-labs/medusa-shippo-elements": "^0.1.1",
     "@webprovise1/medusa-fulfillment-shippo": "^1.0.0",
     "awilix": "^8.0.1",
+    "medusa-shippo-fulfillment-custom": "^1.1.89",
     "medusajs-launch-utils": "^0.0.15",
     "minio": "^8.0.3",
     "pg": "^8.13.1",
