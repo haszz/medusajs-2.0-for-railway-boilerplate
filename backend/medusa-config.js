@@ -147,28 +147,7 @@ const medusaConfig = {
           }
         }
       }
-    }] : []),
-    {
-      resolve: `@rsc-labs/medusa-shippo-elements`,
-      options: {
-        token: process.env.SHIPPO_API_KEY, // Reuse the Shippo API Key
-        enableUI: true
-      }
-    },
-    {
-      resolve: `medusa-shippo-fulfillment-custom`,
-      options: {
-        shippo_key: process.env.SHIPPO_KEY,
-        shippo_id: process.env.SHIPPO_ID,
-        envirnoment: process.env.SHIPPO_ENVIRNOMENT,
-        sender_name: process.env.SHIPPO_SENDER_NAME,
-        sender_suburb: process.env.SHIPPO_SENDER_SUBURB,
-        sender_postcode: process.env.SHIPPO_SENDER_POSTCODE,
-        sender_address: process.env.SHIPPO_SENDER_ADDRESS,
-        sender_state: process.env.SHIPPO_SENDER_STATE,
-        sender_country: process.env.SHIPPO_SENDER_COUNTRY,
-      },
-    }
+    }] : [])
   ]
 };
 
