@@ -149,26 +149,29 @@ const medusaConfig = {
       }
     }] : []),
     {
-      resolve: `@webprovise1/medusa-fulfillment-shippo`,
-      options: {
-        api_key: process.env.SHIPPO_API_KEY,
-        weight_unit_type: 'g',
-        dimension_unit_type: 'cm',
-        // webhook_secret: process.env.SHIPPO_WEBHOOK_SECRET, // Comment out or remove if Shippo provides no secret
-        webhook_test_mode: process.env.NODE_ENV !== 'production'
-      },
-    },
-    {
       resolve: `@rsc-labs/medusa-shippo-elements`,
       options: {
         token: process.env.SHIPPO_API_KEY, // Reuse the Shippo API Key
         enableUI: true
       }
+    },
+    {
+      resolve: `medusa-shippo-fulfillment-custom`,
+      options: {
+        shippo_key: process.env.SHIPPO_KEY,
+        shippo_id: process.env.SHIPPO_ID,
+        envirnoment: process.env.SHIPPO_ENVIRNOMENT,
+        sender_name: process.env.SHIPPO_SENDER_NAME,
+        sender_suburb: process.env.SHIPPO_SENDER_SUBURB,
+        sender_postcode: process.env.SHIPPO_SENDER_POSTCODE,
+        sender_address: process.env.SHIPPO_SENDER_ADDRESS,
+        sender_state: process.env.SHIPPO_SENDER_STATE,
+        sender_country: process.env.SHIPPO_SENDER_COUNTRY,
+      },
     }
   ]
 };
 
 console.log(JSON.stringify(medusaConfig, null, 2));
-console.log('💌 Resend active?', RESEND_API_KEY && RESEND_FROM_EMAIL)
 
 export default defineConfig(medusaConfig);
