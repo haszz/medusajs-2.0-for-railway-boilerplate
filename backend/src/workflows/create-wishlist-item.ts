@@ -31,15 +31,20 @@ export const createWishlistItemWorkflow: any = createWorkflow<
   const processedWishlistData = transform(
     { existingWishlistQueryResult, inputFromWorkflow: input },
     async (data) => {
-      const wishlistEntity = data.existingWishlistQueryResult.data?.[0] as WishlistOutputDTO | undefined;
+      let wishlistEntity = data.existingWishlistQueryResult.data?.[0] as WishlistOutputDTO | undefined;
 
       if (!wishlistEntity) {
-        throw new MedusaError(
-          MedusaError.Types.NOT_FOUND,
-          "No wishlist found for this customer (transform check)."
-        );
+        // Call sub-workflow to create wishlist
+        const newWishlistResult = await createWishlistWorkflow.runAsStep({
+          customer_id: data.inputFromWorkflow.customer_id,
+          sales_channel_id: data.inputFromWorkflow.sales_channel_id,
+        });
+        wishlistEntity = (newWishlistResult as CreateWishlistWorkflowOutputType).wishlist;
+        if (!wishlistEntity) {
+          throw new MedusaError(MedusaError.Types.UNEXPECTED_STATE, "Failed to create wishlist.");
+        }
       }
-      return { targetWishlist: wishlistEntity };
+      return { targetWishlist: wishlistEntity }; // Output of the transform step
     }
   );
 
