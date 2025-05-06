@@ -14,66 +14,67 @@ type CreateWishlistItemWorkflowInput = {
 
 type CreateWishlistWorkflowOutputType = { wishlist: WishlistOutputDTO }
 
-export const createWishlistItemWorkflow: any = createWorkflow<CreateWishlistItemWorkflowInput, { wishlist: WishlistOutputDTO }, any[]>(
-  "create-wishlist-item",
-  (input: CreateWishlistItemWorkflowInput) => {
-    const existingWishlistQueryResult = useQueryGraphStep({
-      entity: "wishlist",
-      fields: ["*", "items.*"],
-      filters: {
-        customer_id: input.customer_id,
-      },
-    })
+export const createWishlistItemWorkflow: any = createWorkflow<
+  CreateWishlistItemWorkflowInput,
+  { wishlist: WishlistOutputDTO },
+  any[]
+>("create-wishlist-item", (input: CreateWishlistItemWorkflowInput) => {
+  const existingWishlistQueryResult = useQueryGraphStep({
+    entity: "wishlist",
+    fields: ["*", "items.*"],
+    filters: {
+      customer_id: input.customer_id,
+    },
+  })
 
-    const determinedWishlist = transform({ existingWishlistQueryResult, input }, async (data) => {
-      let wishlistEntity = data.existingWishlistQueryResult.data?.[0] as WishlistOutputDTO | undefined;
+  const determinedWishlist = transform({ existingWishlistQueryResult, input }, async (data) => {
+    let wishlistEntity = data.existingWishlistQueryResult.data?.[0] as WishlistOutputDTO | undefined;
 
-      if (!wishlistEntity) {
-        const newWishlistResult = await createWishlistWorkflow.runAsStep({
-          customer_id: data.input.customer_id,
-          sales_channel_id: data.input.sales_channel_id,
-        });
-        wishlistEntity = (newWishlistResult as CreateWishlistWorkflowOutputType).wishlist; 
-      }
-
-      if (!wishlistEntity) {
-        throw new MedusaError(MedusaError.Types.UNEXPECTED_STATE, "Failed to retrieve or create a wishlist for the customer.");
-      }
-      return { targetWishlist: wishlistEntity };
-    });
-    
-    const targetWishlist = determinedWishlist.targetWishlist;
-
-    validateWishlistSalesChannelStep({
-      wishlist: targetWishlist,
-      sales_channel_id: input.sales_channel_id,
-    });
-
-    validateVariantWishlistStep({
-      variant_id: input.variant_id,
-      sales_channel_id: input.sales_channel_id,
-      wishlist: targetWishlist,
-    });
-
-    createWishlistItemStep({
-      product_variant_id: input.variant_id,
-      wishlist_id: targetWishlist.id,
-    });
-
-    const { data: updatedWishlists } = useQueryGraphStep({
-      entity: "wishlist",
-      fields: ["*", "items.*", "items.product_variant.*"],
-      filters: {
-        id: targetWishlist.id,
-      },
-    }).config({ name: "refetch-wishlist" });
-
-    if (!updatedWishlists?.[0]) {
-        throw new MedusaError(MedusaError.Types.UNEXPECTED_STATE, "Failed to refetch the updated wishlist.");
+    if (!wishlistEntity) {
+      const newWishlistResult = await createWishlistWorkflow.runAsStep({
+        customer_id: data.input.customer_id,
+        sales_channel_id: data.input.sales_channel_id,
+      })
+      wishlistEntity = (newWishlistResult as CreateWishlistWorkflowOutputType).wishlist;
     }
 
-    return new WorkflowResponse({
-      wishlist: updatedWishlists[0] as WishlistOutputDTO,
-    });
+    if (!wishlistEntity) {
+      throw new MedusaError(MedusaError.Types.UNEXPECTED_STATE, "Failed to retrieve or create a wishlist for the customer.");
+    }
+    return { targetWishlist: wishlistEntity };
+  })
+  
+  const targetWishlist = determinedWishlist.targetWishlist;
+
+  validateWishlistSalesChannelStep({
+    wishlist: targetWishlist,
+    sales_channel_id: input.sales_channel_id,
+  });
+
+  validateVariantWishlistStep({
+    variant_id: input.variant_id,
+    sales_channel_id: input.sales_channel_id,
+    wishlist: targetWishlist,
+  });
+
+  createWishlistItemStep({
+    product_variant_id: input.variant_id,
+    wishlist_id: targetWishlist.id,
+  });
+
+  const { data: updatedWishlists } = useQueryGraphStep({
+    entity: "wishlist",
+    fields: ["*", "items.*", "items.product_variant.*"],
+    filters: {
+      id: targetWishlist.id,
+    },
+  }).config({ name: "refetch-wishlist" });
+
+  if (!updatedWishlists?.[0]) {
+    throw new MedusaError(MedusaError.Types.UNEXPECTED_STATE, "Failed to refetch the updated wishlist.");
   }
-)
+
+  return new WorkflowResponse({
+    wishlist: updatedWishlists[0] as WishlistOutputDTO,
+  });
+});
