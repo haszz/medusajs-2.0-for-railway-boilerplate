@@ -6,6 +6,7 @@ import { validateVariantWishlistStep } from "./steps/validate-variant-wishlist"
 import { MedusaError } from "@medusajs/framework/utils"
 import { type WishlistOutputDTO } from "./create-wishlist"
 import { createWishlistWorkflow } from "./create-wishlist"
+import { WorkflowData } from "@medusajs/framework/workflows-sdk"
 
 type CreateWishlistItemWorkflowInput = {
   variant_id: string
@@ -26,7 +27,7 @@ export const createWishlistItemWorkflow: any = createWorkflow<
     filters: {
       customer_id: input.customer_id,
     },
-  })
+  });
 
   const processedWishlistData = transform(
     { existingWishlistQueryResult, inputFromWorkflow: input },
@@ -34,17 +35,16 @@ export const createWishlistItemWorkflow: any = createWorkflow<
       let wishlistEntity = data.existingWishlistQueryResult.data?.[0] as WishlistOutputDTO | undefined;
 
       if (!wishlistEntity) {
-        // Call sub-workflow to create wishlist
         const newWishlistResult = await createWishlistWorkflow.runAsStep({
-          customer_id: data.inputFromWorkflow.customer_id,
-          sales_channel_id: data.inputFromWorkflow.sales_channel_id,
+            customer_id: data.inputFromWorkflow.customer_id,
+            sales_channel_id: data.inputFromWorkflow.sales_channel_id,
         });
-        wishlistEntity = (newWishlistResult as CreateWishlistWorkflowOutputType).wishlist;
+        wishlistEntity = (newWishlistResult as CreateWishlistWorkflowOutputType).wishlist; 
         if (!wishlistEntity) {
           throw new MedusaError(MedusaError.Types.UNEXPECTED_STATE, "Failed to create wishlist.");
         }
       }
-      return { targetWishlist: wishlistEntity }; // Output of the transform step
+      return { targetWishlist: wishlistEntity };
     }
   );
 
