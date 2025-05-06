@@ -2,14 +2,14 @@ import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-
 import { validateCustomerCreateWishlistStep } from "./steps/validate-customer-create-wishlist"
 import { createWishlistStep } from "./steps/create-wishlist"
 
-// Define a basic DTO for the wishlist if not already available
-// You might want to import this from your module's types if it exists
-interface WishlistOutputDTO { // Renamed for clarity, this is what the workflow outputs
+export interface WishlistOutputDTO { // Renamed for clarity, this is what the workflow outputs
   id: string;
   customer_id: string;
   sales_channel_id: string;
-  // Add other relevant fields, especially if 'items' are returned and typed
-  items?: any[]; 
+  items: any[]; // Changed from optional to required
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null; // Changed from optional to required, can be null
 }
 
 type CreateWishlistWorkflowInput = {
