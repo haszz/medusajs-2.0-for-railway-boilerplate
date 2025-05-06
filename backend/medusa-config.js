@@ -138,7 +138,7 @@ const medusaConfig = {
   ],
   plugins: [
     {
-      resolve: "medusa-plugin-wishlist",
+      resolve: "medusa-wishlist-plugin",
       options: {}
     },
   ...(MEILISEARCH_HOST && MEILISEARCH_ADMIN_KEY ? [{
