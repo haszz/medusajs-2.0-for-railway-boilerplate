@@ -1,16 +1,19 @@
-import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
+import { createWorkflow, WorkflowResponse, transform } from "@medusajs/framework/workflows-sdk"
 import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 import { validateWishlistSalesChannelStep } from "./steps/validate-wishlist-sales-channel"
 import { createWishlistItemStep } from "./steps/create-wishlist-item"
 import { validateVariantWishlistStep } from "./steps/validate-variant-wishlist"
 import { MedusaError } from "@medusajs/framework/utils"
 import { type WishlistOutputDTO } from "./create-wishlist"
+import { createWishlistWorkflow } from "./create-wishlist"
 
 type CreateWishlistItemWorkflowInput = {
   variant_id: string
   customer_id: string
   sales_channel_id: string
 }
+
+type CreateWishlistWorkflowOutputType = { wishlist: WishlistOutputDTO }
 
 export const createWishlistItemWorkflow: any = createWorkflow<
   CreateWishlistItemWorkflowInput,
@@ -25,15 +28,23 @@ export const createWishlistItemWorkflow: any = createWorkflow<
     },
   })
 
-  const targetWishlist = existingWishlistQueryResult.data?.[0] as WishlistOutputDTO | undefined;
+  const processedWishlistData = transform(
+    { existingWishlistQueryResult, inputFromWorkflow: input },
+    async (data) => {
+      const wishlistEntity = data.existingWishlistQueryResult.data?.[0] as WishlistOutputDTO | undefined;
 
-  if (!targetWishlist) {
-    throw new MedusaError(
-      MedusaError.Types.NOT_FOUND,
-      "No wishlist found for this customer."
-    );
-  }
-  
+      if (!wishlistEntity) {
+        throw new MedusaError(
+          MedusaError.Types.NOT_FOUND,
+          "No wishlist found for this customer (transform check)."
+        );
+      }
+      return { targetWishlist: wishlistEntity };
+    }
+  );
+
+  const targetWishlist = processedWishlistData.targetWishlist;
+
   validateWishlistSalesChannelStep({
     wishlist: targetWishlist,
     sales_channel_id: input.sales_channel_id,
