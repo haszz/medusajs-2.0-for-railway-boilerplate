@@ -24,8 +24,8 @@
     "@medusajs/admin-sdk": "latest",
     "@medusajs/cli": "latest",
     "@medusajs/core-flows": "latest",
-    "@medusajs/framework": "latest",
-    "@medusajs/medusa": "latest",
+    "@medusajs/framework": "^2.7.1",
+    "@medusajs/medusa": "^2.7.1",
     "@medusajs/notification-sendgrid": "latest",
     "@medusajs/payment-stripe": "latest",
     "@medusajs/workflow-engine-redis": "latest",
@@ -35,7 +35,9 @@
     "@mikro-orm/postgresql": "6.4.3",
     "@react-email/components": "^0.0.26",
     "@rokmohar/medusa-plugin-meilisearch": "^1.1.4",
+    "@types/jsonwebtoken": "^9.0.9",
     "awilix": "^8.0.1",
+    "jsonwebtoken": "^9.0.2",
     "medusajs-launch-utils": "^0.0.15",
     "minio": "^8.0.3",
     "pg": "^8.13.1",
@@ -62,6 +64,11 @@
     "vite": "^5.4.11"
   },
   "packageManager": "pnpm@9.10.0",
+  "pnpm": {
+    "overrides": {
+      "zod": "^3.24.4"
+    }
+  },
   "engines": {
     "node": "22.x",
     "npm": "10.x"
