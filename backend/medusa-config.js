@@ -43,6 +43,13 @@ const medusaConfig = {
   admin: {
     backendUrl: BACKEND_URL,
     disable: SHOULD_DISABLE_ADMIN,
+    vite: () => {
+      return {
+        optimizeDeps: {
+          include: ["qs"],
+        },
+      };
+    },
   },
   modules: [
     {
@@ -131,7 +138,8 @@ const medusaConfig = {
   ],
   plugins: [
     {
-      resolve: 'medusa-plugin-wishlist',
+      resolve: "medusa-plugin-wishlist",
+      options: {}
     },
   ...(MEILISEARCH_HOST && MEILISEARCH_ADMIN_KEY ? [{
       resolve: '@rokmohar/medusa-plugin-meilisearch',
