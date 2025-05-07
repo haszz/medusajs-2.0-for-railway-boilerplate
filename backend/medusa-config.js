@@ -92,7 +92,7 @@ const medusaConfig = {
         }
       }
     }] : []),
-    ...(SENDGRID_API_KEY && SENDGRID_FROM_EMAIL || RESEND_API_KEY && RESEND_FROM_EMAIL ? [{
+    {
       key: Modules.NOTIFICATION,
       resolve: '@medusajs/notification',
       options: {
@@ -115,9 +115,19 @@ const medusaConfig = {
               from: RESEND_FROM_EMAIL,
             },
           }] : []),
+          ...(!(SENDGRID_API_KEY && SENDGRID_FROM_EMAIL) && !(RESEND_API_KEY && RESEND_FROM_EMAIL) ?
+            [{
+              resolve: '@medusajs/medusa/notification-local',
+              id: 'local',
+              options: {
+                channels: ['email'],
+              }
+            }] :
+            []
+          )
         ]
       }
-    }] : []),
+    },
     ...(STRIPE_API_KEY && STRIPE_WEBHOOK_SECRET ? [{
       key: Modules.PAYMENT,
       resolve: '@medusajs/payment',
