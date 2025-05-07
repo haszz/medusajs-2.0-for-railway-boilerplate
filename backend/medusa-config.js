@@ -46,6 +46,9 @@ const medusaConfig = {
   },
   modules: [
     {
+      resolve: "./src/modules/restock"
+    },
+    {
       resolve: "./src/modules/wishlist"
     },
     {
