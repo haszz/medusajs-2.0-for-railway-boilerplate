@@ -102,11 +102,13 @@ export const WORKER_MODE =
 export const SHOULD_DISABLE_ADMIN = process.env.MEDUSA_DISABLE_ADMIN === 'true'
 
 /**
- * (optional) Mondial Relay API base URL
+ * (optional) Shippo API Token
  */
-export const MONDIAL_RELAY_API_BASE_URL = process.env.MONDIAL_RELAY_API_BASE_URL;
+export const SHIPPO_API_TOKEN = process.env.SHIPPO_API_TOKEN;
 
 /**
- * (optional) Mondial Relay culture
+ * (optional) Shippo weight unit (g, kg, oz, lb)
  */
-export const MONDIAL_RELAY_CULTURE = process.env.MONDIAL_RELAY_CULTURE;
+export const MEDUSA_ADMIN_SHIPPO_WEIGHT_UNIT = process.env.MEDUSA_ADMIN_SHIPPO_WEIGHT_UNIT;
+
+
