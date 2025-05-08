@@ -10,6 +10,10 @@ export class ShipStationClient {
   }
 
   private async sendRequest(url: string, data?: RequestInit): Promise<any> {
+    console.log("[ShipStationClient] Sending request to URL:", url);
+    if (data) {
+      console.log("[ShipStationClient] Request data:", data);
+    }
     return fetch(`https://api.shipstation.com/v2${url}`, {
       ...data,
       headers: {
@@ -17,13 +21,18 @@ export class ShipStationClient {
         'api-key': this.options.api_key,
         "Content-Type": "application/json"
       }
-    }).then((resp) => {
-      const contentType = resp.headers.get("content-type")
+    }).then(async (resp) => {
+      const contentType = resp.headers.get("content-type");
+      let responseBody;
       if (!contentType?.includes("application/json")) {
-        return resp.text()
+        responseBody = await resp.text();
+        console.log("[ShipStationClient] Received non-JSON response:", responseBody);
+        return responseBody;
       }
 
-      return resp.json()
+      responseBody = await resp.json();
+      console.log("[ShipStationClient] Received JSON response:", responseBody);
+      return responseBody;
     })
     .then((resp) => {
       if (typeof resp !== "string" && resp.errors?.length) {
