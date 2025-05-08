@@ -146,7 +146,8 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
     let rate: Rate | undefined
 
     if (!shipment_id) {
-      console.log("[ShipStationProviderService] context.shipping_address:", context.shipping_address); 
+      console.log("[ShipStationProviderService] context.shipping_address:", context.shipping_address);
+      console.log("[ShipStationProviderService] context.items for weight calculation:", JSON.stringify(context.items, null, 2));
       const shipment = await this.createShipment({
         carrier_id,
         carrier_service_code,

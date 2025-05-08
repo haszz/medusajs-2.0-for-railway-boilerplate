@@ -79,7 +79,7 @@ export class ShipStationClient {
   async getShipmentRates(id: string): Promise<RateResponse[]> {
     console.log("[ShipStationClient] getShipmentRates called with id:", id);
     const result = await this.sendRequest(`/shipments/${id}/rates`);
-    console.log("[ShipStationClient] getShipmentRates response:", result);
+    // console.log("[ShipStationClient] getShipmentRates response:", result);
     return result;
   }
 
@@ -114,7 +114,7 @@ export class ShipStationClient {
   async getShipment(id: string): Promise<Shipment> {
     console.log("[ShipStationClient] getShipment called with id:", id);
     const result = await this.sendRequest(`/shipments/${id}`);
-    console.log("[ShipStationClient] getShipment response:", result);
+    // console.log("[ShipStationClient] getShipment response:", result);
     return result;
   }
 }
