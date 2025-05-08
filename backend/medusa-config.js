@@ -1,3 +1,5 @@
+const dotenv = require("dotenv");
+dotenv.config();
 import { loadEnv, Modules, defineConfig } from '@medusajs/utils';
 import {
   ADMIN_CORS,
@@ -21,7 +23,12 @@ import {
   MINIO_SECRET_KEY,
   MINIO_BUCKET,
   MEILISEARCH_HOST,
-  MEILISEARCH_ADMIN_KEY
+  MEILISEARCH_ADMIN_KEY,
+  MONDIAL_RELAY_API_BASE_URL,
+  MONDIAL_RELAY_CULTURE,
+  MONDIAL_RELAY_LOGIN,
+  MONDIAL_RELAY_PASSWORD,
+  MONDIAL_RELAY_CUSTOMER_ID
 } from 'lib/constants';
 
 loadEnv(process.env.NODE_ENV, process.cwd());
@@ -182,7 +189,36 @@ const medusaConfig = {
           }
         }
       }
-    }] : [])
+    }] : []),
+    {
+			resolve: `medusa-fulfillment-mondialrelay`,
+			options: {
+				apiBaseUrl:
+					MONDIAL_RELAY_API_BASE_URL,
+				culture:
+					MONDIAL_RELAY_CULTURE,
+				login:
+					MONDIAL_RELAY_LOGIN,
+				password:
+					MONDIAL_RELAY_PASSWORD,
+				customerId:
+					MONDIAL_RELAY_CUSTOMER_ID,
+				businessAddress: {
+					title: "Mr", // or "Mme"
+					firstname: "John",
+					lastname: "Doe",
+					streetname: "Rue de la Paix",
+					addressAdd2: "Apt 123",
+					countryCode: "FR",
+					postCode: "75002",
+					city: "Paris",
+					addressAdd1: "1",
+					mobileNo: "0600000000",
+					email: "John.Doe@email.com",
+					returnLocation: "FR-12345",
+				},
+			},
+		},
   ]
 };
 

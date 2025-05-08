@@ -100,3 +100,28 @@ export const WORKER_MODE =
  * Disable Admin
  */
 export const SHOULD_DISABLE_ADMIN = process.env.MEDUSA_DISABLE_ADMIN === 'true'
+
+/**
+ * (optional) Mondial Relay API base URL
+ */
+export const MONDIAL_RELAY_API_BASE_URL = process.env.MONDIAL_RELAY_API_BASE_URL;
+
+/**
+ * (optional) Mondial Relay culture
+ */
+export const MONDIAL_RELAY_CULTURE = process.env.MONDIAL_RELAY_CULTURE;
+
+/**
+ * (optional) Mondial Relay Login
+ */
+export const MONDIAL_RELAY_LOGIN = process.env.MONDIAL_RELAY_LOGIN;
+
+/**
+ * (optional) Mondial Relay Password
+ */
+export const MONDIAL_RELAY_PASSWORD = process.env.MONDIAL_RELAY_PASSWORD;
+
+/**
+ * (optional) Mondial Relay Customer ID
+ */
+export const MONDIAL_RELAY_CUSTOMER_ID = process.env.MONDIAL_RELAY_CUSTOMER_ID;
