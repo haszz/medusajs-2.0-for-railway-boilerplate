@@ -164,6 +164,8 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
       rate = rateResponse[0].rates[0]
     }
 
+    console.log("[ShipStationProviderService] Selected rate object for calculation:", JSON.stringify(rate, null, 2));
+
     const calculatedPrice = !rate ? 0 : rate.shipping_amount.amount + rate.insurance_amount.amount + 
       rate.confirmation_amount.amount + rate.other_amount.amount + 
       (rate.tax_amount?.amount || 0)
