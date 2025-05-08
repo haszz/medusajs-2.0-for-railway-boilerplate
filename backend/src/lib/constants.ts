@@ -110,18 +110,3 @@ export const MONDIAL_RELAY_API_BASE_URL = process.env.MONDIAL_RELAY_API_BASE_URL
  * (optional) Mondial Relay culture
  */
 export const MONDIAL_RELAY_CULTURE = process.env.MONDIAL_RELAY_CULTURE;
-
-/**
- * (optional) Mondial Relay Login
- */
-export const MONDIAL_RELAY_LOGIN = process.env.MONDIAL_RELAY_LOGIN;
-
-/**
- * (optional) Mondial Relay Password
- */
-export const MONDIAL_RELAY_PASSWORD = process.env.MONDIAL_RELAY_PASSWORD;
-
-/**
- * (optional) Mondial Relay Customer ID
- */
-export const MONDIAL_RELAY_CUSTOMER_ID = process.env.MONDIAL_RELAY_CUSTOMER_ID;
