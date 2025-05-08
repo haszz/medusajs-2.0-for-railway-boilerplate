@@ -49,11 +49,15 @@ export class ShipStationClient {
   }
 
   async getCarriers(): Promise<CarriersResponse> {
-    return await this.sendRequest("/carriers") 
+    console.log("[ShipStationClient] getCarriers called");
+    const result = await this.sendRequest("/carriers");
+    console.log("[ShipStationClient] getCarriers response:", result);
+    return result;
   }
 
   async getShippingRates(data: GetShippingRatesRequest): Promise<GetShippingRatesResponse> {
-    return await this.sendRequest("/rates", {
+    console.log("[ShipStationClient] getShippingRates called with data:", data);
+    const result = await this.sendRequest("/rates", {
       method: "POST",
       body: JSON.stringify(data)
     }).then((resp) => {
@@ -67,33 +71,50 @@ export class ShipStationClient {
       }
 
       return resp
-    })
+    });
+    console.log("[ShipStationClient] getShippingRates response:", result);
+    return result;
   }
 
   async getShipmentRates(id: string): Promise<RateResponse[]> {
-    return await this.sendRequest(`/shipments/${id}/rates`)
+    console.log("[ShipStationClient] getShipmentRates called with id:", id);
+    const result = await this.sendRequest(`/shipments/${id}/rates`);
+    console.log("[ShipStationClient] getShipmentRates response:", result);
+    return result;
   }
 
   async purchaseLabelForShipment(id: string): Promise<Label> {
-    return await this.sendRequest(`/labels/shipment/${id}`, {
+    console.log("[ShipStationClient] purchaseLabelForShipment called with id:", id);
+    const result = await this.sendRequest(`/labels/shipment/${id}`, {
       method: "POST",
       body: JSON.stringify({})
-    })
+    });
+    console.log("[ShipStationClient] purchaseLabelForShipment response:", result);
+    return result;
   }
 
   async voidLabel(id: string): Promise<VoidLabelResponse> {
-    return await this.sendRequest(`/labels/${id}/void`, {
+    console.log("[ShipStationClient] voidLabel called with id:", id);
+    const result = await this.sendRequest(`/labels/${id}/void`, {
       method: "PUT"
-    })
+    });
+    console.log("[ShipStationClient] voidLabel response:", result);
+    return result;
   }
 
   async cancelShipment(id: string): Promise<void> {
-    return await this.sendRequest(`/shipments/${id}/cancel`, {
+    console.log("[ShipStationClient] cancelShipment called with id:", id);
+    const result = await this.sendRequest(`/shipments/${id}/cancel`, {
       method: "PUT"
-    })
+    });
+    console.log("[ShipStationClient] cancelShipment response:", result);
+    return result;
   }
 
   async getShipment(id: string): Promise<Shipment> {
-    return await this.sendRequest(`/shipments/${id}`)
+    console.log("[ShipStationClient] getShipment called with id:", id);
+    const result = await this.sendRequest(`/shipments/${id}`);
+    console.log("[ShipStationClient] getShipment response:", result);
+    return result;
   }
 }
