@@ -101,14 +101,4 @@ export const WORKER_MODE =
  */
 export const SHOULD_DISABLE_ADMIN = process.env.MEDUSA_DISABLE_ADMIN === 'true'
 
-/**
- * (optional) Shippo API Token
- */
-export const SHIPPO_API_TOKEN = process.env.SHIPPO_API_TOKEN;
-
-/**
- * (optional) Shippo weight unit (g, kg, oz, lb)
- */
-export const MEDUSA_ADMIN_SHIPPO_WEIGHT_UNIT = process.env.MEDUSA_ADMIN_SHIPPO_WEIGHT_UNIT;
-
 

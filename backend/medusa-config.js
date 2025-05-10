@@ -21,8 +21,7 @@ import {
   MINIO_SECRET_KEY,
   MINIO_BUCKET,
   MEILISEARCH_HOST,
-  MEILISEARCH_ADMIN_KEY,
-  SHIPPO_API_TOKEN
+  MEILISEARCH_ADMIN_KEY
 } from 'lib/constants';
 
 loadEnv(process.env.NODE_ENV, process.cwd());
@@ -183,14 +182,7 @@ const medusaConfig = {
           }
         }
       }
-    }] : []),
-    {
-      resolve: `@rsc-labs/medusa-shippo-elements`,
-      options: {
-        token: SHIPPO_API_TOKEN,
-        enableUI: true
-      }
-    }
+    }] : [])
   ]
 };
 
