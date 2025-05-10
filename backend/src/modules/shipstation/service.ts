@@ -146,8 +146,6 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
     let rate: Rate | undefined
 
     if (!shipment_id) {
-      console.log("[ShipStationProviderService] context.shipping_address:", context.shipping_address);
-      console.log("[ShipStationProviderService] context.items for weight calculation:", JSON.stringify(context.items, null, 2));
       const shipment = await this.createShipment({
         carrier_id,
         carrier_service_code,
@@ -165,7 +163,6 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
       rate = rateResponse[0].rates[0]
     }
 
-    console.log("[ShipStationProviderService] Selected rate object for calculation:", JSON.stringify(rate, null, 2));
 
     const calculatedPrice = !rate ? 0 : rate.shipping_amount.amount + rate.insurance_amount.amount + 
       rate.confirmation_amount.amount + rate.other_amount.amount + 
