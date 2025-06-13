@@ -1,5 +1,6 @@
 # Custom API Routes
 
+
 An API Route is a REST API endpoint.
 
 An API Route is created in a TypeScript or JavaScript file under the `/src/api` directory of your Medusa application. The file’s name must be `route.ts` or `route.js`.
